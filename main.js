@@ -1,9 +1,14 @@
-const {app, BrowserWindow, ipcMain} = require('electron')
+const {app, BrowserWindow, contentTracing} = require('electron')
 const {spawnTest} = require('./spawn-test');
 
-let mainWindow
+let mainWindow;
 
-app.on('ready', () => {
+app.on('ready', async () => {
+    await contentTracing.startRecording({
+        include_categories: ['*']
+    })
+    console.log('Tracing started')
+
     mainWindow = new BrowserWindow({
         width: 800,
         height: 600,
@@ -19,6 +24,10 @@ app.on('ready', () => {
     });
 
     spawnTest(console.log);
+
+    await new Promise(resolve => setTimeout(resolve, 5000))
+    const path = await contentTracing.stopRecording()
+    console.log('Tracing data recorded to ' + path)
 });
 
 // Quit when all windows are closed.
