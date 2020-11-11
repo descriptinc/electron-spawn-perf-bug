@@ -1,4 +1,5 @@
 const {app, BrowserWindow, ipcMain} = require('electron')
+const {spawn} = require('child_process');
 const {spawnTest} = require('./spawn-test');
 
 let mainWindow
@@ -9,6 +10,7 @@ app.on('ready', () => {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
+            enableRemoteModule: true,
         },
     });
 
@@ -18,7 +20,7 @@ app.on('ready', () => {
         mainWindow = null
     });
 
-    spawnTest(console.log);
+    spawnTest(spawn, console.log);
 });
 
 // Quit when all windows are closed.

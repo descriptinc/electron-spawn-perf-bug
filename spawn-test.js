@@ -1,6 +1,4 @@
-const {spawn} = require('child_process');
-
-exports.spawnTest = function spawnTest(log) {
+exports.spawnTest = function spawnTest(spawn, log) {
     for (let i = 0; i < 10; i++) {
         log(`${i}: spawning "ls" process`);
         const start = Date.now();
