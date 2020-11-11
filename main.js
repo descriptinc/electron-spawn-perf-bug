@@ -3,6 +3,7 @@ const {spawnTest} = require('./spawn-test');
 
 let mainWindow;
 
+app.allowRendererProcessReuse = true;
 app.on('ready', async () => {
     await contentTracing.startRecording({
         include_categories: ['*']
@@ -14,6 +15,8 @@ app.on('ready', async () => {
         height: 600,
         webPreferences: {
             nodeIntegration: true,
+            sandbox: false,
+            contextIsolation: false,
         },
     });
 
